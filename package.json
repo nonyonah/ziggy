@@ -1,0 +1,29 @@
+{
+  "name": "ziggy-agent",
+  "version": "1.0.0",
+  "description": "Autonomous OpenClaw Agent on Base",
+  "main": "dist/agent.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node src/agent.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "base",
+    "agent",
+    "autonomous",
+    "web3"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "solc": "^0.8.33",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
