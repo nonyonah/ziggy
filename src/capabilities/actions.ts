@@ -29,11 +29,39 @@ async function checkSafeBudget(gasEstimate: bigint) {
     console.log(`SAFETY CHECK: Cost ${formatEther(cost)} ETH is within limit.`);
 }
 
-export const socialPost = async (content: string, txLink?: string) => {
-    // Modularized for future key integration (ENV vars)
-    // const apiKey = process.env.SOCIAL_API_KEY;
-    console.log(`[SOCIAL] ${content}`, txLink ? `(${txLink})` : '');
-    // if (apiKey) { ... calls to twitter-api-v2 ... }
+// Website Update Interface
+export interface WebsiteUpdate {
+    timestamp: string;
+    action: string;
+    details: string;
+    txHash?: string;
+}
+
+export const publishUpdate = async (update: WebsiteUpdate) => {
+    // 1. Log to console (simulated broadcast)
+    console.log(`[WEBSITE] Publishing update: ${JSON.stringify(update)}`);
+
+    // 2. Write to a local JSON file that the website would consume
+    const publicPath = path.resolve(__dirname, '../../web/public'); // Writes to Next.js public dir
+    if (!fs.existsSync(publicPath)) {
+        fs.mkdirSync(publicPath, { recursive: true });
+    }
+
+    const feedPath = path.join(publicPath, 'feed.json');
+    let feed: WebsiteUpdate[] = [];
+    if (fs.existsSync(feedPath)) {
+        try {
+            feed = JSON.parse(fs.readFileSync(feedPath, 'utf8'));
+        } catch (e) {
+            // ignore corrupt feed
+        }
+    }
+    // Prepend new update
+    feed.unshift(update);
+    // Keep last 50
+    if (feed.length > 50) feed = feed.slice(0, 50);
+
+    fs.writeFileSync(feedPath, JSON.stringify(feed, null, 2));
 };
 
 
@@ -43,7 +71,7 @@ function loadArtifact(name: string) {
     return JSON.parse(fs.readFileSync(path.join(artifactsDir, `${name}.json`), 'utf-8'));
 }
 
-export async function deployContract(type: 'Poll' | 'Counter' | 'Guestbook'): Promise<Address> {
+export async function deployContract(type: 'Poll' | 'Counter' | 'Guestbook' | 'ExperimentalERC20'): Promise<Address> {
     console.log(`Deploying ${type}...`);
     const artifact = loadArtifact(type);
 
@@ -70,7 +98,7 @@ export async function deployContract(type: 'Poll' | 'Counter' | 'Guestbook'): Pr
     return receipt.contractAddress!;
 }
 
-export async function interactContract(address: Address, type: 'Poll' | 'Counter' | 'Guestbook') {
+export async function interactContract(address: Address, type: 'Poll' | 'Counter' | 'Guestbook' | 'ExperimentalERC20') {
     console.log(`Interacting with ${type} at ${address}...`);
     const artifact = loadArtifact(type);
 
@@ -85,6 +113,10 @@ export async function interactContract(address: Address, type: 'Poll' | 'Counter
     } else if (type === 'Guestbook') {
         functionName = 'sign';
         args = ["Ziggy was here"];
+    } else if (type === 'ExperimentalERC20') {
+        functionName = 'transfer';
+        // Transfer 1 token to random address (zero address for burn/demo)
+        args = ['0x000000000000000000000000000000000000dEaD', parseEther('1')];
     }
 
     const { request } = await client.simulateContract({

@@ -17,7 +17,9 @@ Ziggy is an autonomous AI agent that lives on the Base blockchain. It observes n
     - **Journal**: logs all actions to an immutable onchain journal.
 - **Broadcast**: Logs activity to social channels (simulated).
 
-## 🛠 Setup
+## 🛠 Setup & Architecture
+
+**Ziggy is built on the OpenClaw Framework.**
 
 ### 1. Clone & Install
 ```bash
@@ -39,25 +41,30 @@ node scripts/compile.js
 
 ## 🚀 Usage
 
-### Run the Agent (Daily Cycle)
-Ziggy is designed to run periodically. You can start the daemon:
+### Run the Agent (OpenClaw Runtime)
+Ziggy runs as an OpenClaw skill. To start the agent loop:
 ```bash
 npm start
+# or directly: openclaw run
 ```
-Or run a single cycle immediately:
-```bash
-npx ts-node src/agent.ts --once
-```
+This will load `SKILL.md` and execute the `runCycle` handler daily.
 
-### Simulation / Testing
-The agent includes a safety guard to prevent spending more than **0.01 ETH** per transaction.
-To test logic without a real chain connection (mock mode), check `src/capabilities/baseScan.ts`.
+### Run the Frontend (Dashboard)
+Visualize Ziggy's activity with the Next.js dashboard:
+```bash
+cd web
+npm install
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) to see the live feed.
 
 ## 📂 Project Structure
-- `src/agent.ts`: Main entry point and lifecycle manager.
+- `SKILL.md`: OpenClaw skill definition.
+- `src/agent.ts`: Main skill handler.
 - `src/engine.ts`: Decision logic (Build vs Use vs Report).
 - `src/capabilities/`: Tools for scanning, acting, and logging.
-- `contracts/`: Solidity smart contracts for the Journal and Micro-apps.
+- `contracts/`: Solidity smart contracts.
+- `web/`: Next.js + Shadcn UI frontend.
 
 ## 🛡 Safety
 Ziggy operates with strict constraints:

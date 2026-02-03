@@ -1,6 +1,6 @@
 import { scanNetwork } from './capabilities/baseScan';
 import { decideAction } from './engine';
-import { deployContract, interactContract, logJournal, socialPost } from './capabilities/actions';
+import { deployContract, interactContract, logJournal, publishUpdate } from './capabilities/actions';
 import { Address } from 'viem';
 
 // Configuration
@@ -27,7 +27,7 @@ async function cycle() {
 
     try {
         if (action === 'BUILD') {
-            const apps = ['Poll', 'Counter', 'Guestbook'] as const;
+            const apps = ['Poll', 'Counter', 'Guestbook', 'ExperimentalERC20'] as const;
             const choice = apps[Math.floor(Math.random() * apps.length)];
             const reason = `High activity detected (${signals.newContracts} new contracts). Expanding infrastructure via ${choice}.`;
 
@@ -35,7 +35,13 @@ async function cycle() {
             await interactContract(newContract, choice);
 
             const logTx = await logJournal(journalAddr, 'BUILD', newContract, reason);
-            await socialPost(`Builders are building! I just deployed a ${choice} on Base to join the fun.`, `https://sepolia.basescan.org/tx/${logTx}`);
+
+            await publishUpdate({
+                timestamp: new Date().toISOString(),
+                action: 'BUILD',
+                details: `Deployed ${choice} on Base. ${reason}`,
+                txHash: logTx
+            });
 
         } else if (action === 'USE') {
             // In a real app we'd find an existing popular contract. Here we'll deploy a temp one or use a hardcoded one to interact.
@@ -45,24 +51,40 @@ async function cycle() {
 
             await interactContract(target, 'Counter');
             const logTx = await logJournal(journalAddr, 'USE', target, reason);
-            await socialPost(`Volume is loud today! Contributing my part onchain.`, `https://sepolia.basescan.org/tx/${logTx}`);
+
+            await publishUpdate({
+                timestamp: new Date().toISOString(),
+                action: 'USE',
+                details: `Interacted with contract at ${target}. ${reason}`,
+                txHash: logTx
+            });
 
         } else { // REPORT
             const reason = `Quiet day. NewContracts=${signals.newContracts}, VolumeDelta=${signals.volumeDelta.toFixed(2)}%.`;
             const logTx = await logJournal(journalAddr, 'REPORT', null, reason);
-            await socialPost(`Markets are calm. Scanning the horizon for opportunities.`, `https://sepolia.basescan.org/tx/${logTx}`);
+
+            await publishUpdate({
+                timestamp: new Date().toISOString(),
+                action: 'REPORT',
+                details: `Ecosystem Report: ${reason}`,
+                txHash: logTx
+            });
         }
     } catch (error) {
         console.error("Cycle failed:", error);
     }
 }
 
-// Simple loop or run once
-if (process.argv.includes('--once')) {
-    cycle();
-} else {
-    // Run every 24h (simulated as 10s for demo if needed, but let's stick to manual invocation or simple interval)
-    console.log("Ziggy is online. Running daily cycle...");
-    cycle();
-    setInterval(cycle, 24 * 60 * 60 * 1000);
+// OpenClaw Handler
+export async function runCycle() {
+    await cycle();
+}
+
+// Keep standalone execution for manual testing if needed
+if (require.main === module) {
+    if (process.argv.includes('--once')) {
+        cycle();
+    } else {
+        console.log("Ziggy Agent: Please run via OpenClaw or use --once flag.");
+    }
 }

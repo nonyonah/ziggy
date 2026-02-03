@@ -29,3 +29,27 @@ contract Guestbook {
         messages.push(_message);
     }
 }
+
+contract ExperimentalERC20 {
+    string public name = "Ziggy Token";
+    string public symbol = "ZIG";
+    uint8 public decimals = 18;
+    uint256 public totalSupply;
+    mapping(address => uint256) public balanceOf;
+    event Transfer(address indexed from, address indexed to, uint256 value);
+
+    constructor() {
+        uint256 initialSupply = 1000000 * 10**decimals;
+        balanceOf[msg.sender] = initialSupply;
+        totalSupply = initialSupply;
+        emit Transfer(address(0), msg.sender, initialSupply);
+    }
+
+    function transfer(address to, uint256 value) public returns (bool) {
+        require(balanceOf[msg.sender] >= value, "Insufficient balance");
+        balanceOf[msg.sender] -= value;
+        balanceOf[to] += value;
+        emit Transfer(msg.sender, to, value);
+        return true;
+    }
+}
