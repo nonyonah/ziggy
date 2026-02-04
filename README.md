@@ -1,72 +1,81 @@
-# ZIGGY – Autonomous Agent on Base
+# Ziggy - Autonomous DeFi Yield Agent
 
-Ziggy is an autonomous AI agent that lives on the Base blockchain. It observes network activity, makes decisions on whether to **Build**, **Use**, or **Report**, and executes actions onchain without human intervention.
+Ziggy is an autonomous agent designed to hunt for USDC yields on the Base blockchain. It perceives market conditions, decides on strategies (Morpho, Aerodrome), acts on-chain, and narrates its journey.
 
-## 🤖 Identity
-- **Name**: Ziggy
-- **Mission**: Onchain Autonomist & Journalist
-- **Platform**: Base (Sepolia/Mainnet)
-- **Cycle**: Daily (Every 24h)
+## 🏗 Directory Structure
 
-## 🧠 specific Capabilities
-- **Scan**: Monitors Base network signals (Transaction volume, New contracts).
-- **Decide**: Deterministic decision engine based on signal thresholds.
-- **Act**:
-    - **Deploy**: Launches micro-apps (Polls, Counters, Guestbooks).
-    - **Interact**: Uses existing contracts to simulate economic activity.
-    - **Journal**: logs all actions to an immutable onchain journal.
-- **Broadcast**: Logs activity to social channels (simulated).
+- **`src/agent/`**: Core agent logic (TypeScript).
+  - `heartbeat.ts`: Main loop (perceive → decide → act → evolve).
+  - `modules/`: Autonomous capabilities.
+  - `protocols/`: DeFi integrations.
+- **`frontend/`**: Next.js dashboard for visualization.
+- **`contracts/`**: Smart contracts ($ZIGGY token, Vaults).
+- **`openclaw/`**: Agent personality (`SOUL.md`), rules (`USER.md`), and integration docs.
 
-## 🛠 Setup & Architecture
+## 🚀 Getting Started
 
-**Ziggy is built on the OpenClaw Framework.**
+### Prerequisites
 
-### 1. Clone & Install
+- Node.js >= 18
+- An Ethereum wallet private key (Base chain recommended)
+- Privy App ID (for frontend)
+- Google Gemini API Key (optional, for OpenClaw/AI features)
+
+### Installation
+
+1.  **Install Dependencies**:
+    ```bash
+    npm install
+    cd frontend && npm install && cd ..
+    ```
+
+2.  **Environment Setup**:
+    - Agent: Copy `.env.example` to `.env` and fill in `PRIVATE_KEY`, `RPC_URL`, etc.
+    - Frontend: Copy `frontend/.env.example` to `frontend/.env.local` and fill in `NEXT_PUBLIC_PRIVY_APP_ID`.
+
+3.  **OpenClaw Setup**:
+    This project uses [OpenClaw](https://openclaw.ai) for agent runtime capabilities and potential future enhancements.
+    
+    Ensure OpenClaw is set up (run once):
+    ```bash
+    npx openclaw onboard
+    ```
+    *Follow the prompts to configure your local gateway and API keys.*
+
+## 🏃‍♂️ Running Ziggy
+
+### 1. Start the Agent (Heartbeat)
+The agent runs on a 4-hour loop (configurable).
+
 ```bash
-git clone https://github.com/nonyonah/ziggy.git
-cd ziggy
-npm install
-```
+# Run in development mode
+npm run dev
 
-### 2. Configure Environment
-Create a `.env` file in the root directory:
-```bash
-PRIVATE_KEY=0x... # Your Base Sepolia wallet private key
-```
-
-### 3. Compile Contracts
-```bash
-node scripts/compile.js
-```
-
-## 🚀 Usage
-
-### Run the Agent (OpenClaw Runtime)
-Ziggy runs as an OpenClaw skill. To start the agent loop:
-```bash
+# Run in production mode
 npm start
-# or directly: openclaw run
 ```
-This will load `SKILL.md` and execute the `runCycle` handler daily.
 
-### Run the Frontend (Dashboard)
-Visualize Ziggy's activity with the Next.js dashboard:
+### 2. Start the Frontend Dashboard
+The dashboard visualizes Ziggy's state and receives autonomous updates.
+
 ```bash
-cd web
-npm install
+cd frontend
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) to see the live feed.
+Visit http://localhost:3000 to see Ziggy in action.
 
-## 📂 Project Structure
-- `SKILL.md`: OpenClaw skill definition.
-- `src/agent.ts`: Main skill handler.
-- `src/engine.ts`: Decision logic (Build vs Use vs Report).
-- `src/capabilities/`: Tools for scanning, acting, and logging.
-- `contracts/`: Solidity smart contracts.
-- `web/`: Next.js + Shadcn UI frontend.
+## 🦞 OpenClaw Integration
 
-## 🛡 Safety
-Ziggy operates with strict constraints:
-- **Budget**: Max 0.01 ETH per action.
-- **Determinism**: Actions are derived purely from onchain data.
+Ziggy includes OpenClaw as a development dependency.
+- **CLI**: Use `npx openclaw` to interact with the OpenClaw runtime.
+- **Configuration**: `openclaw/` directory contains agent personality files potentially usable by OpenClaw skills or other AI runtimes.
+- **Gateway**: The OpenClaw Gateway service provides a local interface for monitoring and tool execution (http://localhost:18789).
+
+## 🛠 Development
+
+- **Build Agent**: `npm run build`
+- **Build Frontend**: `cd frontend && npm run build`
+- **Lint**: `npm run lint` (if configured)
+
+## 📄 License
+MIT

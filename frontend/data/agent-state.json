@@ -1,0 +1,140 @@
+{
+  "lastUpdate": "2026-02-04T16:45:35.435Z",
+  "treasury": 0.732,
+  "treasury_usdc": 0.732,
+  "current_apy": 0,
+  "current_protocol": "Idle",
+  "current_position": "None",
+  "growth_percent": 0,
+  "total_compounded": 0,
+  "status": "Ziggy check-in: Treasury $0.732 USDC. Farming idle at 0.00% APY.",
+  "history": [
+    {
+      "timestamp": "2026-02-04T16:45:35.435Z",
+      "action": "heartbeat",
+      "details": {
+        "protocol": "Idle",
+        "pool": "None",
+        "new_treasury_usdc": 0.732,
+        "apy_current": 0
+      },
+      "narrative": "Ziggy check-in: Treasury $0.732 USDC. Farming idle at 0.00% APY."
+    },
+    {
+      "timestamp": "2026-02-04T16:23:03.539Z",
+      "action": "heartbeat",
+      "details": {
+        "protocol": "Idle",
+        "pool": "None",
+        "new_treasury_usdc": 0.732,
+        "apy_current": 0
+      },
+      "narrative": "Ziggy check-in: Treasury $0.732 USDC. Farming idle at 0.00% APY."
+    },
+    {
+      "timestamp": "2026-02-04T16:21:12.953Z",
+      "action": "heartbeat",
+      "details": {
+        "protocol": "Idle",
+        "pool": "None",
+        "new_treasury_usdc": 0.732,
+        "apy_current": 0
+      },
+      "narrative": "Ziggy check-in: Treasury $0.732 USDC. Farming idle at 0.00% APY."
+    },
+    {
+      "timestamp": "2026-02-04T16:17:48.634Z",
+      "action": "heartbeat",
+      "details": {
+        "protocol": "Idle",
+        "pool": "None",
+        "new_treasury_usdc": 0.732,
+        "apy_current": 0
+      },
+      "narrative": "Ziggy check-in: Treasury $0.732 USDC. Farming idle at 0.00% APY."
+    },
+    {
+      "timestamp": "2026-02-04T16:14:18.023Z",
+      "action": "heartbeat",
+      "details": {
+        "protocol": "Idle",
+        "pool": "None",
+        "new_treasury_usdc": 0.732,
+        "apy_current": 0
+      },
+      "narrative": "Ziggy check-in: Treasury $0.732 USDC. Farming idle at 0.00% APY."
+    },
+    {
+      "timestamp": "2026-02-04T16:10:44.579Z",
+      "action": "heartbeat",
+      "details": {
+        "protocol": "Idle",
+        "pool": "None",
+        "new_treasury_usdc": 0,
+        "apy_current": 0
+      },
+      "narrative": "Ziggy check-in: Treasury $0 USDC. Farming idle at 0.00% APY."
+    },
+    {
+      "timestamp": "2026-02-04T16:08:44.327Z",
+      "action": "heartbeat",
+      "details": {
+        "protocol": "Idle",
+        "pool": "None",
+        "new_treasury_usdc": 0,
+        "apy_current": 0
+      },
+      "narrative": "Ziggy check-in: Treasury $0 USDC. Farming idle at 0.00% APY."
+    },
+    {
+      "timestamp": "2026-02-04T16:01:26.508Z",
+      "action": "heartbeat",
+      "details": {
+        "protocol": "Idle",
+        "pool": "None",
+        "new_treasury_usdc": 6.185,
+        "apy_current": 0
+      },
+      "narrative": "Ziggy check-in: Treasury $6.185 USDC. Farming idle at 0.00% APY."
+    },
+    {
+      "timestamp": "2026-02-04T15:55:04.413Z",
+      "action": "heartbeat",
+      "details": {
+        "protocol": "Idle",
+        "pool": "None",
+        "new_treasury_usdc": 6.185,
+        "apy_current": 0
+      },
+      "narrative": "Ziggy check-in: Treasury $6.185 USDC. Farming idle at 0.00% APY."
+    },
+    {
+      "timestamp": "2026-02-04T15:33:03.147Z",
+      "action": "heartbeat",
+      "details": {
+        "protocol": "Idle",
+        "pool": "None",
+        "new_treasury_usdc": 0,
+        "apy_current": 0
+      },
+      "narrative": "Ziggy check-in: Treasury $0 USDC. Farming idle at 0.00% APY."
+    },
+    {
+      "timestamp": "2026-02-04T14:00:00Z",
+      "action": "compounded_rewards",
+      "details": {
+        "protocol": "Morpho",
+        "amount_usdc": 0.45,
+        "new_treasury_usdc": 125.67,
+        "apy_current": 12.8,
+        "tx_hash": "0xdemo123..."
+      },
+      "narrative": "Ziggy zigged: Compounded 0.45 USDC from Morpho. Treasury now $125.67 (+0.36%)"
+    }
+  ],
+  "milestones": [
+    "launched",
+    "first_compound"
+  ],
+  "isActive": true
+}
